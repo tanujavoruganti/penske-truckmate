@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TruckMate — Penske Truck Finder</title>
+  <link rel="stylesheet" href="/static/css/style.css?v=4">
+</head>
+<body>
+
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">🚛</span>
+        <div class="logo-text">
+          <span class="logo-name">TruckMate</span>
+          <span class="logo-sub">Penske Rental Assistant</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="step-pills">
+          <span class="pill active" id="pill-configure">Configure</span>
+          <span class="pill-arrow">→</span>
+          <span class="pill" id="pill-results">Results</span>
+        </div>
+        <button class="btn btn-ghost btn-sm hidden" id="start-over-btn">↩ Start Over</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-main">
+
+    <!-- ── Workspace: Chat (left) + Form (right) ──────────────────── -->
+    <div class="workspace" id="workspace">
+
+      <!-- LEFT: Chat -->
+      <div class="panel panel-chat">
+        <div class="panel-label">💬 Chat with TruckMate</div>
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-input-bar">
+          <input id="chat-input" type="text"
+                 placeholder="Describe your move…"
+                 autocomplete="off" />
+          <button id="chat-send" class="btn btn-primary" aria-label="Send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- RIGHT: Form -->
+      <div class="panel panel-form">
+        <div class="panel-label">📋 Move Details</div>
+        <div class="form-scroll">
+          <form id="intake-form" novalidate>
+
+            <!-- Move Details -->
+            <div class="form-section">
+              <div class="field-group">
+                <label class="field-label">Type of move</label>
+                <div class="toggle-group" id="move-type-group">
+                  <button type="button" class="tog active" data-value="household">Household</button>
+                  <button type="button" class="tog" data-value="commercial">Commercial</button>
+                  <button type="button" class="tog" data-value="delivery">Delivery</button>
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label class="field-label" for="f-distance">Distance (miles)</label>
+                  <input type="number" id="f-distance" min="0" step="1" placeholder="e.g. 150">
+                </div>
+                <div class="field">
+                  <label class="field-label" for="f-days">Rental days</label>
+                  <input type="number" id="f-days" min="1" step="1" value="1">
+                </div>
+              </div>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <!-- Cargo -->
+            <div class="form-section">
+              <div class="cargo-tabs">
+                <button type="button" class="ctab active" id="ctab-list">List Items</button>
+                <button type="button" class="ctab" id="ctab-manual">Manual Totals</button>
+              </div>
+
+              <div id="cargo-list-panel">
+                <div class="item-adder">
+                  <div class="autocomplete-wrap">
+                    <input type="text" id="item-search"
+                           placeholder="Search items (sofa, queen mattress…)"
+                           autocomplete="off">
+                    <div id="item-dropdown" class="ac-dropdown hidden"></div>
+                  </div>
+                  <input type="number" id="item-qty" min="1" value="1" class="qty-input" aria-label="Quantity">
+                  <button type="button" id="add-item-btn" class="btn btn-secondary btn-sm">+ Add</button>
+                </div>
+                <div class="quick-adds">
+                  <span class="qa-label">Quick:</span>
+                  <button type="button" class="qa-btn" data-preset="studio">Studio</button>
+                  <button type="button" class="qa-btn" data-preset="1bed">1 Bed</button>
+                  <button type="button" class="qa-btn" data-preset="2bed">2 Bed</button>
+                  <button type="button" class="qa-btn" data-preset="3bed">3–4 Bed</button>
+                </div>
+                <button type="button" id="custom-toggle-btn" class="custom-item-toggle">＋ Add custom item</button>
+                <div id="custom-item-panel" class="custom-item-panel hidden">
+                  <div class="custom-item-fields">
+                    <input type="text"   id="custom-name"   placeholder="Item name (e.g. piano)">
+                    <input type="number" id="custom-qty"    min="1" value="1" class="qty-input" aria-label="Quantity">
+                    <input type="number" id="custom-weight" min="0" step="1"   placeholder="lb/ea"    class="spec-input" aria-label="Weight per unit">
+                    <input type="number" id="custom-vol"    min="0" step="0.1" placeholder="cu ft/ea" class="spec-input" aria-label="Volume per unit">
+                    <button type="button" id="custom-add-btn" class="btn btn-primary btn-sm">Add</button>
+                  </div>
+                  <p class="hint">Rough estimates are fine — the system adds safety buffers automatically.</p>
+                </div>
+                <div id="items-list"></div>
+                <div id="items-summary" class="items-summary hidden"></div>
+              </div>
+
+              <div id="cargo-manual-panel" class="hidden">
+                <div class="field-row">
+                  <div class="field">
+                    <label class="field-label" for="f-weight">Total weight (lbs)</label>
+                    <input type="number" id="f-weight" min="0" placeholder="e.g. 3500">
+                  </div>
+                  <div class="field">
+                    <label class="field-label" for="f-volume">Total volume (cu ft)</label>
+                    <input type="number" id="f-volume" min="0" placeholder="e.g. 600">
+                  </div>
+                </div>
+                <p class="hint">Add 10–15% to weight as a safety buffer. Volume is raw cargo — trucks need ~25% extra for packing gaps.</p>
+              </div>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <!-- Driver & Preferences -->
+            <div class="form-section">
+              <div class="field-group">
+                <label class="field-label">CDL license?</label>
+                <div class="toggle-group" id="cdl-group">
+                  <button type="button" class="tog active" data-value="false">No CDL</button>
+                  <button type="button" class="tog" data-value="true">Yes, I have a CDL</button>
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label class="field-label" for="f-budget">Max budget (optional)</label>
+                  <div class="prefix-wrap">
+                    <span class="prefix">$</span>
+                    <input type="number" id="f-budget" min="0" placeholder="Any">
+                  </div>
+                </div>
+                <div class="field">
+                  <label class="field-label">Optimise for</label>
+                  <div class="toggle-group" id="priority-group">
+                    <button type="button" class="tog active" data-value="cost">Cost</button>
+                    <button type="button" class="tog" data-value="space">Space</button>
+                    <button type="button" class="tog" data-value="fuel_efficiency">Fuel</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-submit-row">
+              <button type="submit" id="submit-btn" class="btn btn-primary btn-full">
+                Get My Recommendation →
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Results ─────────────────────────────────────────────────── -->
+    <div class="results-view hidden" id="results-view">
+      <div id="results-shell"></div>
+    </div>
+
+  </main>
+
+  <script src="/static/js/app.js?v=5"></script>
+</body>
+</html>

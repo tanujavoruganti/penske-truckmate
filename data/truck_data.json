@@ -1,0 +1,102 @@
+{
+  "trucks": [
+    {
+      "id": "12ft-box",
+      "category": "Light",
+      "name": "12 Foot Box Truck",
+      "max_loading_space_cuft": 450,
+      "max_payload_lb": 3100,
+      "max_fuel_tank_gal": 33,
+      "max_mpg": 12,
+      "max_gvw_lb": 9900,
+      "cdl_required": false,
+      "description": "Ideal for small apartments, studio moves, or small business deliveries. Fits in standard parking spaces.",
+      "best_for": ["studio apartment", "1-bedroom apartment", "small office", "local deliveries"],
+      "approximate_rooms": "Studio to 1-bedroom"
+    },
+    {
+      "id": "16ft-box",
+      "category": "Light",
+      "name": "16 Foot Box Truck",
+      "max_loading_space_cuft": 800,
+      "max_payload_lb": 4300,
+      "max_fuel_tank_gal": 33,
+      "max_mpg": 12,
+      "max_gvw_lb": 12500,
+      "cdl_required": false,
+      "description": "A versatile workhorse for 1-2 bedroom moves or medium-volume business deliveries.",
+      "best_for": ["1-bedroom apartment", "2-bedroom apartment", "small house", "retail deliveries"],
+      "approximate_rooms": "1 to 2 bedrooms"
+    },
+    {
+      "id": "delivery-shelves",
+      "category": "Light",
+      "name": "Delivery Truck With Shelves",
+      "max_loading_space_cuft": 800,
+      "max_payload_lb": 3800,
+      "max_fuel_tank_gal": 33,
+      "max_mpg": 12,
+      "max_gvw_lb": 12500,
+      "cdl_required": false,
+      "description": "Same body size as the 16-foot but fitted with built-in shelving — designed for organized package/parts delivery, not bulk moving.",
+      "best_for": ["parts delivery", "package delivery", "organized inventory transport", "medical supply runs"],
+      "approximate_rooms": "N/A — delivery/commercial use"
+    },
+    {
+      "id": "16-18ft-cabover",
+      "category": "Light",
+      "name": "16 and 18 Foot Cabover Truck",
+      "max_loading_space_cuft": 950,
+      "max_payload_lb": 7200,
+      "max_fuel_tank_gal": 30,
+      "max_mpg": 13,
+      "max_gvw_lb": 17500,
+      "cdl_required": false,
+      "description": "Higher payload capacity than standard box trucks. Cabover design improves visibility in urban environments.",
+      "best_for": ["2-bedroom apartment", "small house", "heavy equipment haul", "urban delivery routes"],
+      "approximate_rooms": "2 bedrooms"
+    },
+    {
+      "id": "18-22ft-stepvan",
+      "category": "Medium",
+      "name": "18 to 22 Foot Step Van",
+      "max_loading_space_cuft": 1000,
+      "max_payload_lb": 10000,
+      "max_fuel_tank_gal": 40,
+      "max_mpg": 12,
+      "max_gvw_lb": 19500,
+      "cdl_required": false,
+      "description": "Walk-in step van body with easy side/rear access. Common for route delivery, catering, and mobile businesses.",
+      "best_for": ["route delivery", "catering", "mobile business", "frequent stop-and-go deliveries"],
+      "approximate_rooms": "N/A — commercial/delivery use"
+    },
+    {
+      "id": "22-26ft-box-noncdl",
+      "category": "Medium",
+      "name": "22 to 26 Foot Box Truck (Non-CDL)",
+      "max_loading_space_cuft": 1700,
+      "max_payload_lb": 10000,
+      "max_fuel_tank_gal": 70,
+      "max_mpg": 13,
+      "max_gvw_lb": 26000,
+      "cdl_required": false,
+      "description": "Large-capacity truck that stays under the 26,001 lb CDL threshold. The go-to for large household moves without needing a commercial license.",
+      "best_for": ["3-4 bedroom house", "large apartment", "long-distance household move", "large commercial delivery"],
+      "approximate_rooms": "3 to 4 bedrooms"
+    },
+    {
+      "id": "22-26ft-box-cdl",
+      "category": "Medium",
+      "name": "22 to 26 Foot Box Truck (CDL)",
+      "max_loading_space_cuft": 1700,
+      "max_payload_lb": 17000,
+      "max_fuel_tank_gal": 70,
+      "max_mpg": 13,
+      "max_gvw_lb": 33000,
+      "cdl_required": true,
+      "description": "Identical body to the Non-CDL version but rated for significantly higher payload. Requires a valid Commercial Driver License. Best for heavy industrial, construction, or freight loads.",
+      "best_for": ["heavy freight", "construction materials", "industrial equipment", "high-density cargo"],
+      "approximate_rooms": "N/A — heavy commercial/industrial use"
+    }
+  ]
+}

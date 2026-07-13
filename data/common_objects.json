@@ -1,0 +1,139 @@
+{
+  "_note": "Default weight and volume estimates for common household and commercial items. Sources: USPS, moving industry standards, manufacturer specs. All weights in lbs, volumes in cubic feet.",
+  "categories": {
+    "bedroom_furniture": {
+      "label": "Bedroom Furniture",
+      "items": {
+        "mattress_twin": {"weight_lb": 45, "volume_cuft": 24, "aliases": ["twin mattress", "single mattress"]},
+        "mattress_full": {"weight_lb": 56, "volume_cuft": 32, "aliases": ["full mattress", "double mattress"]},
+        "mattress_queen": {"weight_lb": 65, "volume_cuft": 40, "aliases": ["queen mattress", "queen bed mattress"]},
+        "mattress_king": {"weight_lb": 90, "volume_cuft": 48, "aliases": ["king mattress", "king size mattress"]},
+        "bed_frame_twin": {"weight_lb": 45, "volume_cuft": 18, "aliases": ["twin bed frame", "twin bed"]},
+        "bed_frame_full": {"weight_lb": 55, "volume_cuft": 24, "aliases": ["full bed frame", "double bed frame"]},
+        "bed_frame_queen": {"weight_lb": 65, "volume_cuft": 30, "aliases": ["queen bed frame", "queen bed"]},
+        "bed_frame_king": {"weight_lb": 85, "volume_cuft": 38, "aliases": ["king bed frame", "king bed"]},
+        "dresser_small": {"weight_lb": 80, "volume_cuft": 20, "aliases": ["small dresser", "3-drawer dresser"]},
+        "dresser_large": {"weight_lb": 120, "volume_cuft": 35, "aliases": ["large dresser", "6-drawer dresser", "chest of drawers"]},
+        "nightstand": {"weight_lb": 30, "volume_cuft": 6, "aliases": ["bedside table", "night table"]},
+        "wardrobe": {"weight_lb": 180, "volume_cuft": 50, "aliases": ["armoire", "wardrobe closet", "freestanding wardrobe"]},
+        "vanity": {"weight_lb": 75, "volume_cuft": 18, "aliases": ["makeup vanity", "vanity table"]}
+      }
+    },
+    "living_room_furniture": {
+      "label": "Living Room Furniture",
+      "items": {
+        "sofa_2_seat": {"weight_lb": 150, "volume_cuft": 50, "aliases": ["loveseat", "2-seat sofa", "two seater couch"]},
+        "sofa_3_seat": {"weight_lb": 200, "volume_cuft": 70, "aliases": ["couch", "3-seat sofa", "three seater sofa", "standard sofa"]},
+        "sectional_sofa": {"weight_lb": 285, "volume_cuft": 120, "aliases": ["sectional", "L-shaped couch", "L-shaped sofa"]},
+        "sofa_bed": {"weight_lb": 250, "volume_cuft": 80, "aliases": ["sleeper sofa", "pull-out couch", "futon sofa"]},
+        "recliner": {"weight_lb": 105, "volume_cuft": 28, "aliases": ["reclining chair", "lazy boy"]},
+        "armchair": {"weight_lb": 75, "volume_cuft": 20, "aliases": ["accent chair", "reading chair", "single chair"]},
+        "coffee_table": {"weight_lb": 50, "volume_cuft": 15, "aliases": ["center table"]},
+        "end_table": {"weight_lb": 25, "volume_cuft": 8, "aliases": ["side table"]},
+        "tv_stand": {"weight_lb": 80, "volume_cuft": 18, "aliases": ["entertainment console", "media center", "TV console"]},
+        "bookshelf_small": {"weight_lb": 35, "volume_cuft": 15, "aliases": ["bookcase small", "3-shelf bookcase"]},
+        "bookshelf_large": {"weight_lb": 80, "volume_cuft": 35, "aliases": ["bookcase large", "5-shelf bookcase", "tall bookcase"]},
+        "desk": {"weight_lb": 85, "volume_cuft": 30, "aliases": ["office desk", "computer desk", "writing desk"]},
+        "office_chair": {"weight_lb": 30, "volume_cuft": 12, "aliases": ["desk chair", "computer chair"]},
+        "piano_upright": {"weight_lb": 600, "volume_cuft": 50, "aliases": ["upright piano", "vertical piano", "spinet piano"]},
+        "piano_grand": {"weight_lb": 1000, "volume_cuft": 90, "aliases": ["grand piano", "baby grand"]}
+      }
+    },
+    "dining_room_furniture": {
+      "label": "Dining Room Furniture",
+      "items": {
+        "dining_table_small": {"weight_lb": 80, "volume_cuft": 20, "aliases": ["small dining table", "4-person table"]},
+        "dining_table_large": {"weight_lb": 150, "volume_cuft": 40, "aliases": ["large dining table", "6-person table", "8-person table"]},
+        "dining_chair": {"weight_lb": 20, "volume_cuft": 5, "aliases": ["kitchen chair"]},
+        "bar_stool": {"weight_lb": 15, "volume_cuft": 4, "aliases": ["counter stool", "barstool"]},
+        "sideboard": {"weight_lb": 110, "volume_cuft": 28, "aliases": ["buffet", "credenza", "sideboard cabinet"]},
+        "china_cabinet": {"weight_lb": 160, "volume_cuft": 40, "aliases": ["hutch", "display cabinet", "china hutch"]}
+      }
+    },
+    "kitchen_items": {
+      "label": "Kitchen Items",
+      "items": {
+        "refrigerator_standard": {"weight_lb": 250, "volume_cuft": 30, "aliases": ["fridge", "refrigerator", "standard fridge"]},
+        "refrigerator_french_door": {"weight_lb": 325, "volume_cuft": 35, "aliases": ["french door refrigerator", "french door fridge"]},
+        "refrigerator_mini": {"weight_lb": 50, "volume_cuft": 8, "aliases": ["mini fridge", "compact refrigerator", "dorm fridge"]},
+        "stove_freestanding": {"weight_lb": 130, "volume_cuft": 15, "aliases": ["range", "oven", "gas stove", "electric stove", "freestanding range"]},
+        "dishwasher": {"weight_lb": 90, "volume_cuft": 12, "aliases": ["dish washer"]},
+        "microwave_countertop": {"weight_lb": 30, "volume_cuft": 3, "aliases": ["microwave", "countertop microwave"]},
+        "microwave_over_range": {"weight_lb": 55, "volume_cuft": 5, "aliases": ["over-the-range microwave", "built-in microwave"]},
+        "kitchen_island": {"weight_lb": 120, "volume_cuft": 22, "aliases": ["island cart", "butcher block island"]}
+      }
+    },
+    "laundry_appliances": {
+      "label": "Laundry Appliances",
+      "items": {
+        "washer": {"weight_lb": 170, "volume_cuft": 25, "aliases": ["washing machine", "front load washer", "top load washer"]},
+        "dryer": {"weight_lb": 130, "volume_cuft": 22, "aliases": ["clothes dryer", "gas dryer", "electric dryer"]},
+        "washer_dryer_combo": {"weight_lb": 155, "volume_cuft": 24, "aliases": ["combo washer dryer", "all-in-one washer dryer"]}
+      }
+    },
+    "electronics": {
+      "label": "Electronics & Entertainment",
+      "items": {
+        "tv_32in": {"weight_lb": 18, "volume_cuft": 4, "aliases": ["32 inch tv", "small tv"]},
+        "tv_55in": {"weight_lb": 35, "volume_cuft": 10, "aliases": ["55 inch tv", "medium tv"]},
+        "tv_75in": {"weight_lb": 80, "volume_cuft": 18, "aliases": ["75 inch tv", "large tv"]},
+        "desktop_computer": {"weight_lb": 25, "volume_cuft": 3, "aliases": ["desktop pc", "computer tower", "desktop"]},
+        "monitor": {"weight_lb": 12, "volume_cuft": 2, "aliases": ["computer monitor", "PC monitor"]},
+        "gaming_console": {"weight_lb": 8, "volume_cuft": 1, "aliases": ["xbox", "playstation", "nintendo switch", "game console"]}
+      }
+    },
+    "boxes": {
+      "label": "Moving Boxes",
+      "items": {
+        "box_small": {"weight_lb": 40, "volume_cuft": 1.5, "aliases": ["small box", "book box", "small moving box"]},
+        "box_medium": {"weight_lb": 40, "volume_cuft": 3, "aliases": ["medium box", "standard box", "medium moving box"]},
+        "box_large": {"weight_lb": 50, "volume_cuft": 4.5, "aliases": ["large box", "large moving box"]},
+        "box_wardrobe": {"weight_lb": 15, "volume_cuft": 15, "aliases": ["wardrobe box", "hanging wardrobe box", "closet box"]},
+        "box_dish_pack": {"weight_lb": 50, "volume_cuft": 5, "aliases": ["dish pack box", "dishpack", "china box"]},
+        "box_file": {"weight_lb": 35, "volume_cuft": 2, "aliases": ["file box", "banker box", "document box"]}
+      }
+    },
+    "outdoor_items": {
+      "label": "Outdoor & Garage",
+      "items": {
+        "lawn_mower_push": {"weight_lb": 65, "volume_cuft": 8, "aliases": ["push mower", "walk-behind mower"]},
+        "lawn_mower_riding": {"weight_lb": 450, "volume_cuft": 50, "aliases": ["riding mower", "ride-on mower", "lawn tractor"]},
+        "patio_table": {"weight_lb": 60, "volume_cuft": 15, "aliases": ["outdoor table", "garden table"]},
+        "patio_chair": {"weight_lb": 15, "volume_cuft": 5, "aliases": ["outdoor chair", "garden chair", "patio furniture chair"]},
+        "bbq_grill_small": {"weight_lb": 35, "volume_cuft": 6, "aliases": ["small grill", "charcoal grill", "portable grill"]},
+        "bbq_grill_large": {"weight_lb": 130, "volume_cuft": 18, "aliases": ["gas grill", "large grill", "propane grill"]},
+        "workbench": {"weight_lb": 150, "volume_cuft": 28, "aliases": ["tool bench", "workshop bench"]},
+        "tool_chest": {"weight_lb": 120, "volume_cuft": 15, "aliases": ["toolbox cabinet", "rolling tool chest", "mechanics chest"]}
+      }
+    },
+    "exercise_equipment": {
+      "label": "Exercise Equipment",
+      "items": {
+        "treadmill": {"weight_lb": 200, "volume_cuft": 30, "aliases": ["running machine", "treadmill machine"]},
+        "elliptical": {"weight_lb": 200, "volume_cuft": 28, "aliases": ["elliptical machine", "cross trainer"]},
+        "stationary_bike": {"weight_lb": 100, "volume_cuft": 12, "aliases": ["exercise bike", "spin bike", "peloton"]},
+        "weight_bench": {"weight_lb": 90, "volume_cuft": 15, "aliases": ["bench press", "workout bench"]},
+        "squat_rack": {"weight_lb": 200, "volume_cuft": 45, "aliases": ["power rack", "squat cage", "pull up rack"]},
+        "dumbbells_set": {"weight_lb": 150, "volume_cuft": 5, "aliases": ["dumbbell set", "free weights", "hand weights"]}
+      }
+    },
+    "commercial_cargo": {
+      "label": "Commercial / Industrial Cargo",
+      "items": {
+        "pallet_standard": {"weight_lb": 50, "volume_cuft": 8, "aliases": ["wooden pallet", "pallet", "skid"]},
+        "pallet_loaded_light": {"weight_lb": 1000, "volume_cuft": 50, "aliases": ["light loaded pallet", "pallet of boxes"]},
+        "pallet_loaded_heavy": {"weight_lb": 2500, "volume_cuft": 50, "aliases": ["heavy loaded pallet", "pallet of equipment"]},
+        "filing_cabinet_2drawer": {"weight_lb": 60, "volume_cuft": 5, "aliases": ["2 drawer filing cabinet", "small file cabinet"]},
+        "filing_cabinet_4drawer": {"weight_lb": 110, "volume_cuft": 10, "aliases": ["4 drawer filing cabinet", "large file cabinet"]},
+        "safe_small": {"weight_lb": 75, "volume_cuft": 2, "aliases": ["home safe", "small safe", "gun safe small"]},
+        "safe_large": {"weight_lb": 600, "volume_cuft": 12, "aliases": ["large safe", "floor safe", "commercial safe"]}
+      }
+    }
+  },
+  "lookup_hints": {
+    "description": "If an item is not found in the database, the agent should use web search to estimate its weight and volume. Always add a safety margin of 10-15% when estimating total load weight.",
+    "safety_margin_pct": 12,
+    "volume_packing_efficiency": 0.75,
+    "note_on_volume": "Real-world packing efficiency is ~75%: furniture corners, irregular shapes, and aisle space mean you cannot fill 100% of truck volume. Apply this factor when estimating required truck size."
+  }
+}

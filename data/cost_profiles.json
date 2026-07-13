@@ -1,0 +1,100 @@
+{
+  "_note": "Estimated Penske-style pricing for POC. Based on publicly available Penske rate ranges as of 2024. Actual rates vary by location, season, and availability.",
+  "base_rates": {
+    "12ft-box": {
+      "daily_rate_usd": 39.99,
+      "per_mile_rate_usd": 0.29,
+      "weekly_rate_usd": 239.99,
+      "monthly_rate_usd": 749.99
+    },
+    "16ft-box": {
+      "daily_rate_usd": 49.99,
+      "per_mile_rate_usd": 0.29,
+      "weekly_rate_usd": 299.99,
+      "monthly_rate_usd": 899.99
+    },
+    "delivery-shelves": {
+      "daily_rate_usd": 54.99,
+      "per_mile_rate_usd": 0.29,
+      "weekly_rate_usd": 329.99,
+      "monthly_rate_usd": 949.99
+    },
+    "16-18ft-cabover": {
+      "daily_rate_usd": 64.99,
+      "per_mile_rate_usd": 0.39,
+      "weekly_rate_usd": 389.99,
+      "monthly_rate_usd": 1099.99
+    },
+    "18-22ft-stepvan": {
+      "daily_rate_usd": 84.99,
+      "per_mile_rate_usd": 0.49,
+      "weekly_rate_usd": 499.99,
+      "monthly_rate_usd": 1499.99
+    },
+    "22-26ft-box-noncdl": {
+      "daily_rate_usd": 104.99,
+      "per_mile_rate_usd": 0.49,
+      "weekly_rate_usd": 619.99,
+      "monthly_rate_usd": 1849.99
+    },
+    "22-26ft-box-cdl": {
+      "daily_rate_usd": 134.99,
+      "per_mile_rate_usd": 0.59,
+      "weekly_rate_usd": 799.99,
+      "monthly_rate_usd": 2349.99
+    }
+  },
+  "additional_fees": {
+    "environmental_fee_per_day_usd": 5.00,
+    "one_way_fee_usd": {
+      "description": "Applied when drop-off location differs from pick-up location.",
+      "light_trucks": 150.00,
+      "medium_trucks": 250.00
+    },
+    "after_hours_return_fee_usd": 35.00,
+    "cleaning_fee_if_needed_usd": 50.00,
+    "fuel_surcharge_per_gallon_usd": 0.50,
+    "late_return_fee_per_hour_usd": 15.00
+  },
+  "insurance_options": {
+    "basic_liability": {
+      "name": "Basic Liability Protection",
+      "daily_rate_usd": 14.00,
+      "description": "Covers third-party bodily injury and property damage up to state minimums. Does not cover the rental truck itself."
+    },
+    "limited_damage_waiver": {
+      "name": "Limited Damage Waiver (LDW)",
+      "daily_rate_usd": 19.00,
+      "description": "Reduces your financial liability for physical damage to the rental truck down to a $500 deductible."
+    },
+    "full_damage_waiver": {
+      "name": "Full Damage Waiver (FDW)",
+      "daily_rate_usd": 29.00,
+      "description": "Reduces liability for physical damage to the rental truck to $0 deductible. Recommended for long-distance moves."
+    },
+    "cargo_protection_basic": {
+      "name": "Cargo Protection - Basic",
+      "daily_rate_usd": 15.00,
+      "coverage_usd": 15000,
+      "description": "Covers cargo inside the truck up to $15,000 in case of accident or truck rollover."
+    },
+    "cargo_protection_premium": {
+      "name": "Cargo Protection - Premium",
+      "daily_rate_usd": 25.00,
+      "coverage_usd": 35000,
+      "description": "Covers cargo inside the truck up to $35,000 in case of accident, theft, or truck rollover."
+    }
+  },
+  "fuel_cost_reference": {
+    "diesel_price_per_gal_usd": 3.80,
+    "gasoline_price_per_gal_usd": 3.50,
+    "note": "All Penske trucks use diesel. Price is an estimate; actual price varies by region and date."
+  },
+  "discount_programs": {
+    "aaa_discount_pct": 12,
+    "aarp_discount_pct": 12,
+    "military_discount_pct": 15,
+    "early_booking_discount_pct": 10,
+    "early_booking_days_advance": 14
+  }
+}
