@@ -3,6 +3,9 @@ import chromadb
 from chromadb.utils import embedding_functions
 from backend.config import DATA_DIR, POLICY_DOCS_DIR, CHROMA_DIR, EMBEDDING_MODEL
 
+# Import Langfuse AFTER config (which loads .env) so credentials are available at init time
+from langfuse import observe, get_client
+
 COLLECTION_NAME = "truck_rental_kb"
 
 
@@ -92,8 +95,11 @@ def build_knowledge_base() -> None:
     print(f"[RAG] Indexed {len(documents)} chunks into knowledge base.")
 
 
+@observe(as_type="retriever", name="rag-search", capture_input=False, capture_output=False)
 def search(query: str, n_results: int = 4, doc_type: str | None = None) -> list[dict]:
     """Return the top-N most relevant chunks for a query."""
+    get_client().update_current_span(input=query)
+
     client = _get_client()
     emb_fn = _get_embedding_fn()
     collection = client.get_collection(name=COLLECTION_NAME, embedding_function=emb_fn)
@@ -120,6 +126,11 @@ def search(query: str, n_results: int = 4, doc_type: str | None = None) -> list[
             "type": meta.get("type", "unknown"),
             "relevance_score": round(1 - dist, 3),
         })
+
+    # Log retrieved sources so they're visible in the Langfuse UI
+    get_client().update_current_span(
+        output=[{"source": r["source"], "score": r["relevance_score"]} for r in output]
+    )
     return output
 
 

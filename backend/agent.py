@@ -17,6 +17,9 @@ from backend.config import (
     GEMINI_API_KEY, GEMINI_MODEL,
 )
 
+# Import Langfuse AFTER config (which loads .env) so credentials are available at init time
+from langfuse import observe, get_client
+
 # ── System prompts ───────────────────────────────────────────────────
 
 _CHAT_SYSTEM = """You are TruckMate, a friendly and knowledgeable truck rental assistant for Penske.
@@ -52,13 +55,26 @@ Rules:
 
 # ── Low-level provider routing ───────────────────────────────────────
 
+@observe(as_type="generation", name="ollama-generation", capture_input=False, capture_output=False)
 def _call_ollama(system: str, messages: list[dict], temperature: float | None = None) -> str:
     import ollama as _ollama
     full = ([{"role": "system", "content": system}] if system else []) + messages
     opts = {"temperature": temperature} if temperature is not None else {}
     try:
         resp = _ollama.chat(model=OLLAMA_MODEL, messages=full, options=opts or None)
-        return resp["message"]["content"].strip()
+        content = resp["message"]["content"].strip()
+
+        # Record what was sent/received and token usage so Langfuse can calculate cost
+        get_client().update_current_generation(
+            model=OLLAMA_MODEL,
+            input=full,
+            output=content,
+            usage_details={
+                "input": resp.get("prompt_eval_count", 0),
+                "output": resp.get("eval_count", 0),
+            },
+        )
+        return content
     except Exception as e:
         raise RuntimeError(
             f"Ollama error ({e}). Make sure `ollama serve` is running and "
@@ -66,6 +82,7 @@ def _call_ollama(system: str, messages: list[dict], temperature: float | None = 
         )
 
 
+@observe(as_type="generation", name="gemini-generation", capture_input=False, capture_output=False)
 def _call_gemini(system: str, messages: list[dict], temperature: float | None = None) -> str:
     import google.generativeai as genai
 
@@ -87,7 +104,6 @@ def _call_gemini(system: str, messages: list[dict], temperature: float | None = 
     )
 
     # Gemini uses "model" instead of "assistant" and requires alternating user/model turns.
-    # Convert and pair up the history (all messages except the last user message).
     history = []
     for msg in messages[:-1]:
         role = "model" if msg["role"] == "assistant" else "user"
@@ -96,7 +112,18 @@ def _call_gemini(system: str, messages: list[dict], temperature: float | None = 
     last = messages[-1]["content"] if messages else ""
     chat = model.start_chat(history=history)
     resp = chat.send_message(last)
-    return resp.text.strip()
+    text = resp.text.strip()
+
+    get_client().update_current_generation(
+        model=GEMINI_MODEL,
+        input=history + [{"role": "user", "parts": [last]}],
+        output=text,
+        usage_details={
+            "input": getattr(getattr(resp, "usage_metadata", None), "prompt_token_count", 0),
+            "output": getattr(getattr(resp, "usage_metadata", None), "candidates_token_count", 0),
+        },
+    )
+    return text
 
 
 def _llm(system: str, messages: list[dict], temperature: float | None = None) -> str:
@@ -126,21 +153,32 @@ def active_provider() -> str:
     return f"Ollama ({OLLAMA_MODEL})"
 
 
+@observe(name="chat-response", capture_input=False, capture_output=False)
 def chat(messages: list[dict]) -> str:
+    # Only log the last user message as input — not the full history
+    last_user = next((m["content"] for m in reversed(messages) if m["role"] == "user"), "")
+    get_client().update_current_span(input=last_user)
+
     text, err = _safe_llm(_CHAT_SYSTEM, messages)
     if err:
-        return (
+        error_reply = (
             f"I'm having trouble reaching the AI model right now. "
             f"Active provider: {active_provider()}. Error: {err}"
         )
+        get_client().update_current_span(output=error_reply)
+        return error_reply
+
+    get_client().update_current_span(output=text)
     return text
 
 
+@observe(name="extract-form-data", capture_input=False, capture_output=False)
 def extract_form_data(user_message: str) -> dict:
     """
     Pull structured form fields from the latest user message.
     Returns {} on any failure — best-effort only.
     """
+    get_client().update_current_span(input=user_message)
     try:
         raw = _llm(
             _EXTRACT_SYSTEM,
@@ -151,13 +189,18 @@ def extract_form_data(user_message: str) -> dict:
         raw = re.sub(r"\s*```$", "",          raw)
         match = re.search(r"\{.*\}", raw, re.DOTALL)
         if not match:
+            get_client().update_current_span(output={})
             return {}
         data = json.loads(match.group())
-        return data if isinstance(data, dict) else {}
+        result = data if isinstance(data, dict) else {}
+        get_client().update_current_span(output=result)
+        return result
     except Exception:
+        get_client().update_current_span(output={})
         return {}
 
 
+@observe(name="generate-recommendation", capture_input=False, capture_output=False)
 def generate_recommendation(
     form_data: dict,
     ranked_trucks: list[dict],
@@ -166,10 +209,15 @@ def generate_recommendation(
     warnings: list[str],
 ) -> str:
     if not ranked_trucks:
-        return (
+        msg = (
             "Based on your requirements, none of the trucks in the current fleet can "
             "accommodate your load. Please contact a Penske representative directly."
         )
+        get_client().update_current_span(
+            input={"move_type": form_data.get("move_type"), "distance_miles": form_data.get("distance_miles")},
+            output=msg,
+        )
+        return msg
 
     top  = ranked_trucks[0]
     alts = ranked_trucks[1:3]
@@ -212,9 +260,23 @@ Write exactly 3 short paragraphs in natural prose (no bullet points, no headers)
 
 Be specific with numbers. Do not pad."""
 
+    # Log a clean summary at the span level, not the huge prompt string
+    get_client().update_current_span(
+        input={
+            "move_type": form_data.get("move_type"),
+            "distance_miles": form_data.get("distance_miles"),
+            "top_truck": top["name"],
+            "estimated_total_usd": top["estimated_total_usd"],
+        }
+    )
+
     text, err = _safe_llm("", [{"role": "user", "content": prompt}])
     if err:
-        return _fallback_text(top, alts, load_summary, warnings)
+        result = _fallback_text(top, alts, load_summary, warnings)
+        get_client().update_current_span(output=result)
+        return result
+
+    get_client().update_current_span(output=text)
     return text
 
 

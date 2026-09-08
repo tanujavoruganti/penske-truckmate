@@ -11,6 +11,9 @@ from pydantic import BaseModel, Field
 from backend import rag, agent, tools
 from backend.config import DATA_DIR, BASE_DIR
 
+# Import Langfuse AFTER config (which loads .env) so credentials are available at init time
+from langfuse import observe, get_client
+
 
 # ---------------------------------------------------------------------------
 # Startup: build RAG knowledge base
@@ -44,6 +47,7 @@ class ChatMessage(BaseModel):
 
 class ChatRequest(BaseModel):
     messages: list[ChatMessage]
+    session_id: Optional[str] = None  # groups multi-turn conversations in Langfuse Sessions view
 
 class ChatResponse(BaseModel):
     response: str
@@ -107,6 +111,7 @@ def rag_reset():
 # ---------------------------------------------------------------------------
 
 @app.post("/api/chat", response_model=ChatResponse)
+@observe(name="chat-request", capture_input=False, capture_output=False)
 def chat_endpoint(req: ChatRequest):
     messages = [m.model_dump() for m in req.messages]
 
@@ -115,9 +120,13 @@ def chat_endpoint(req: ChatRequest):
         (m["content"] for m in reversed(messages) if m["role"] == "user"), ""
     )
 
+    # Set trace-level input/output to just the meaningful values
+    get_client().set_current_trace_io(input=last_user)
+
     response_text = agent.chat(messages)
     extracted    = agent.extract_form_data(last_user) if last_user else {}
 
+    get_client().set_current_trace_io(output=response_text)
     return ChatResponse(response=response_text, extracted_data=extracted)
 
 
@@ -126,7 +135,20 @@ def chat_endpoint(req: ChatRequest):
 # ---------------------------------------------------------------------------
 
 @app.post("/api/recommend")
+@observe(name="recommend-request", capture_input=False, capture_output=False)
 def recommend_endpoint(form: IntakeForm):
+    # Set trace-level input showing what the user is asking for
+    get_client().set_current_trace_io(
+        input={
+            "move_type": form.move_type,
+            "distance_miles": form.distance_miles,
+            "rental_days": form.rental_days,
+            "has_cdl": form.has_cdl,
+            "priority": form.priority,
+            "item_count": len(form.items),
+        }
+    )
+
     warnings: list[str] = []
 
     # 1. Calculate load from item list (or use custom overrides)
@@ -206,7 +228,7 @@ def recommend_endpoint(form: IntakeForm):
         warnings=warnings,
     )
 
-    return {
+    result = {
         "recommended_truck": ranked[0],
         "alternatives": ranked[1:],
         "load_summary": load,
@@ -214,6 +236,10 @@ def recommend_endpoint(form: IntakeForm):
         "warnings": warnings,
         "policy_snippets": [r["content"][:400] for r in rag_results[:2]],
     }
+    get_client().set_current_trace_io(
+        output={"recommended_truck": ranked[0]["name"], "estimated_total_usd": ranked[0]["estimated_total_usd"]}
+    )
+    return result
 
 
 # ---------------------------------------------------------------------------

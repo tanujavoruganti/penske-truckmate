@@ -6,12 +6,11 @@ An AI-powered chatbot that helps customers find the right Penske truck for their
 
 ## Screenshots
 
+> Add your screenshots to a `docs/screenshots/` folder and update the paths below.
 
-**Workspace (split-panel)**
-![Workspace view](docs/screenshots/workspace.png)
-
-**Results**
-![Results view](docs/screenshots/results.png) 
+| Workspace (split-panel) | Results |
+|---|---|
+| ![Workspace view](docs/screenshots/workspace.png) | ![Results view](docs/screenshots/results.png) |
 
 **Autocomplete item search**
 ![Autocomplete dropdown](docs/screenshots/autocomplete.png)
